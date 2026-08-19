@@ -1129,7 +1129,7 @@ export default function Home() {
                     value={customLabel}
                     onChange={(e) => setCustomLabel(e.target.value)}
                     placeholder="e.g. Launched checkout-v2"
-                    className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono rounded-xl"
+                    className="w-full bg-white/60 dark:bg-[#070e1b]/60 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono rounded-xl"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -1137,7 +1137,7 @@ export default function Home() {
                   <select
                     value={customX}
                     onChange={(e) => setCustomX(Number(e.target.value))}
-                    className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono rounded-xl"
+                    className="w-full bg-white/60 dark:bg-[#070e1b]/60 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono rounded-xl"
                   >
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((val) => (
                       <option key={val} value={val}>Month {val + 1} ({activeData.points[val]})</option>
@@ -1154,13 +1154,13 @@ export default function Home() {
                   value={customDesc}
                   onChange={(e) => setCustomDesc(e.target.value)}
                   placeholder="Explain why this inflection happened..."
-                  className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground resize-none font-sans leading-relaxed rounded-xl"
+                  className="w-full bg-white/60 dark:bg-[#070e1b]/60 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground resize-none font-sans leading-relaxed rounded-xl"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#091224] dark:bg-white text-white dark:text-[#091224] font-bold uppercase tracking-wider text-xs transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:opacity-90 rounded-xl"
+                className="w-full py-3.5 bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914] font-bold uppercase tracking-wider text-xs transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(13,148,136,0.2)] dark:shadow-[0_0_30px_rgba(45,212,191,0.15)] hover:opacity-95 rounded-xl shimmer-btn"
               >
                 <Plus size={14} /> Register Annotation mark
               </button>
