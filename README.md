@@ -35,4 +35,5 @@ For a deep dive into the engineering trade-offs made under the constraints (such
    ```bash
    npm run dev
    ```
-3. Open [http://localhost:3000](http://localhost:3000) to view the application.
+3. Open https://tidemark-eta.vercel.app/ to view the application.
+--With love Charan 
