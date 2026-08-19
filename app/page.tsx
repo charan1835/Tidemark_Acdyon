@@ -454,14 +454,37 @@ export default function Home() {
       className={cn(
         "min-h-screen transition-colors duration-300 relative select-none font-sans overflow-x-hidden",
         sonarActive 
-          ? "bg-emerald-950/20 text-[#00ff66]" 
+          ? "bg-emerald-950/20 text-[#00ff66] crt-effect" 
           : "bg-[#fcfaf7] dark:bg-[#040914] text-[#091224] dark:text-[#f3f5f8]"
       )}
     >
       
       {/* Easter Egg Sonar Scanlines / Retro CRT overlay */}
       {sonarActive && (
-        <div className="fixed inset-0 pointer-events-none z-50 bg-[radial-gradient(circle_at_center,rgba(0,255,102,0.1),transparent)] opacity-40 scanlines" />
+        <>
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes crt-flicker {
+              0% { opacity: 0.975; }
+              50% { opacity: 1; }
+              100% { opacity: 0.985; }
+            }
+            @keyframes scanline-roll {
+              0% { transform: translateY(-100%); }
+              100% { transform: translateY(100%); }
+            }
+            .crt-effect {
+              filter: sepia(0.85) hue-rotate(85deg) saturate(2.2) brightness(0.95) contrast(1.15);
+            }
+          `}} />
+          <div className="fixed inset-0 pointer-events-none z-50 mix-blend-color-dodge opacity-80 select-none">
+            {/* Screen Flicker / Scanline Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.2)_50%),linear-gradient(90deg,rgba(255,0,0,0.05),rgba(0,255,0,0.02),rgba(0,0,255,0.05))] bg-[size:100%_3px,3px_100%] animate-[crt-flicker_0.15s_infinite]" />
+            {/* Rolling scanline bar */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#00ff66]/0 via-[#00ff66]/8 to-[#00ff66]/0 h-[120px] w-full animate-[scanline-roll_6s_linear_infinite]" />
+            {/* Retro Vignette shadow */}
+            <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.65)]" />
+          </div>
+        </>
       )}
 
       {/* ARCHITECTURAL BLUEPRINT GRID */}
@@ -512,7 +535,7 @@ export default function Home() {
                 setTheme(theme === "dark" ? "light" : "dark");
                 playSynthesizedSound("click");
               }}
-              className="p-2 rounded-full border border-border/40 bg-surface/30 text-muted/80 hover:text-foreground hover:bg-surface transition-all duration-200"
+              className="hidden sm:inline-flex p-2 rounded-full border border-border/40 bg-surface/30 text-muted/80 hover:text-foreground hover:bg-surface transition-all duration-200"
               aria-label="Toggle Theme"
             >
               {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
@@ -525,7 +548,7 @@ export default function Home() {
                 setAuthTab("signup");
                 playSynthesizedSound("chime");
               }}
-              className="text-xs font-bold uppercase tracking-wider text-white bg-[#0d9488] dark:bg-[#2dd4bf] hover:bg-[#0f766e] dark:hover:bg-[#14b8a6] px-5 py-2.5 rounded-none shadow-md transition-colors duration-200 shimmer-btn"
+              className="text-xs font-bold uppercase tracking-wider text-white bg-[#0d9488] dark:bg-[#2dd4bf] hover:bg-[#0f766e] dark:hover:bg-[#14b8a6] px-5 py-2.5 rounded-xl shadow-md transition-colors duration-200 shimmer-btn"
             >
               Start Free
             </motion.button>
@@ -556,7 +579,7 @@ export default function Home() {
           </motion.div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-b border-border/30 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-16">
           
           {/* Left Column: Heavy Editorial Statement */}
           <div className="lg:col-span-6 space-y-6">
@@ -583,7 +606,7 @@ export default function Home() {
               <span>[ connection latency: {averageLatency}ms // {syncedPipelines.toLocaleString()} pipelines synced today ]</span>
             </div>
 
-            {/* CTAs with sharp editorial outlines */}
+            {/* CTAs with rounded editorial outlines */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <motion.button 
                 onClick={() => {
@@ -597,14 +620,14 @@ export default function Home() {
                 transition={{
                   scale: { repeat: Infinity, duration: 2.5, ease: "easeInOut" }
                 }}
-                className="px-8 py-3.5 font-bold uppercase tracking-wider text-xs text-white bg-[#0d9488] dark:bg-[#2dd4bf] hover:bg-[#0f766e] dark:hover:bg-[#14b8a6] transition-colors duration-300 text-center shadow-[0_0_20px_rgba(13,148,136,0.25)] dark:shadow-[0_0_35px_rgba(45,212,191,0.2)] shimmer-btn"
+                className="px-8 py-3.5 font-bold uppercase tracking-wider text-xs text-white bg-[#0d9488] dark:bg-[#2dd4bf] hover:bg-[#0f766e] dark:hover:bg-[#14b8a6] transition-colors duration-300 text-center shadow-[0_0_20px_rgba(13,148,136,0.25)] dark:shadow-[0_0_35px_rgba(45,212,191,0.2)] shimmer-btn rounded-xl"
               >
                 Connect Stripe (Free)
               </motion.button>
               <a 
                 href="#compose" 
                 onClick={() => playSynthesizedSound("click")}
-                className="px-8 py-3.5 font-bold uppercase tracking-wider text-xs border border-border bg-surface/30 hover:bg-surface transition-all duration-200 inline-flex items-center justify-center gap-2 text-center"
+                className="px-8 py-3.5 font-bold uppercase tracking-wider text-xs border border-border bg-surface/30 hover:bg-surface transition-all duration-200 inline-flex items-center justify-center gap-2 text-center rounded-xl"
               >
                 Pin Custom Mark
                 <ArrowUpRight size={14} />
@@ -613,15 +636,15 @@ export default function Home() {
             
             <div className="flex flex-wrap items-center gap-3 pt-3 text-[10px] font-mono text-muted/65">
               <span className="text-muted/40 font-bold uppercase tracking-wider">Avail:</span>
-              <span className="flex items-center gap-1.5 border border-border/40 px-2 py-0.5 bg-surface/30">
+              <span className="flex items-center gap-1.5 border border-border/40 px-2 py-0.5 bg-surface/30 rounded-md">
                 <svg className="w-3 h-3 fill-[#00adef]" viewBox="0 0 24 24"><path d="M0 3.449L9.75 2.1v9.45H0V3.449zM0 12.45h9.75v9.45L0 20.551v-8.1zM10.95 1.95L24 0v11.55H10.95V1.95zm0 10.5H24v11.55l-13.05-1.95V12.45z"/></svg>
                 Windows x64
               </span>
-              <span className="flex items-center gap-1.5 border border-border/40 px-2 py-0.5 bg-surface/30">
+              <span className="flex items-center gap-1.5 border border-border/40 px-2 py-0.5 bg-surface/30 rounded-md">
                 <svg className="w-3 h-3 fill-[#8c8c8c] dark:fill-[#d2d2d2]" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.21.67-2.93 1.49-.62.69-1.16 1.84-1.01 2.96 1.1.09 2.23-.55 2.95-1.39z"/></svg>
                 macOS Client
               </span>
-              <span className="flex items-center gap-1.5 border border-border/40 px-2 py-0.5 bg-surface/30">
+              <span className="flex items-center gap-1.5 border border-border/40 px-2 py-0.5 bg-surface/30 rounded-md">
                 CLI Tool
               </span>
             </div>
@@ -633,8 +656,48 @@ export default function Home() {
 
           {/* Right Column: Chronological Tide Ledger */}
           <div className="lg:col-span-6 space-y-4">
+            
+            {/* Live Telemetry Health Deck */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              {/* Telemetry Stats mini card */}
+              <div className="p-4 border border-border/60 bg-white/30 dark:bg-[#0a1324]/20 backdrop-blur-md rounded-2xl flex flex-col justify-between gap-3">
+                <div className="flex items-center justify-between border-b border-border/20 pb-2">
+                  <span className="text-[8px] font-mono text-muted uppercase tracking-widest font-bold">telemetry stream</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-left">
+                  <div>
+                    <span className="text-[8px] font-mono text-muted block uppercase">ingest delay</span>
+                    <span className="text-xs font-bold font-mono text-foreground">{averageLatency}ms</span>
+                  </div>
+                  <div>
+                    <span className="text-[8px] font-mono text-muted block uppercase">rate load</span>
+                    <span className="text-xs font-bold font-mono text-[#0d9488] dark:text-[#2dd4bf]">982 events/s</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Connected Host status card */}
+              <div className="p-4 border border-border/60 bg-white/30 dark:bg-[#0a1324]/20 backdrop-blur-md rounded-2xl flex flex-col justify-between gap-3">
+                <div className="flex items-center justify-between border-b border-border/20 pb-2">
+                  <span className="text-[8px] font-mono text-muted uppercase tracking-widest font-bold">host registry</span>
+                  <span className="text-[8px] font-mono text-primary font-bold">replica-1a</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-left">
+                  <div>
+                    <span className="text-[8px] font-mono text-muted block uppercase">db replica</span>
+                    <span className="text-xs font-bold font-mono text-emerald-500 uppercase tracking-tight">online</span>
+                  </div>
+                  <div>
+                    <span className="text-[8px] font-mono text-muted block uppercase">mem buffer</span>
+                    <span className="text-xs font-bold font-mono text-amber-500">42.8 MB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="flex items-center justify-between border-b border-border/30 pb-2">
-              <span className="text-[10px] font-mono text-muted uppercase tracking-widest flex items-center gap-1.5">
+              <span className="text-[10px] font-mono text-muted uppercase tracking-widest flex items-center gap-1.5 font-bold">
                 <Clock size={12} className="text-[#0d9488] dark:text-[#2dd4bf]" /> Historical Timeline Ledger
               </span>
               {isAutoplay && !sonarActive && (
@@ -657,7 +720,7 @@ export default function Home() {
                       playSynthesizedSound("click");
                     }}
                     className={cn(
-                      "p-4 border transition-all duration-300 cursor-pointer flex items-start gap-4 select-text relative",
+                      "p-4 border transition-all duration-300 cursor-pointer flex items-start gap-4 select-text relative rounded-xl",
                       isActive 
                         ? sonarActive
                           ? "border-[#00ff66] bg-[#00ff66]/5 shadow-[0_0_15px_rgba(0,255,102,0.1)] translate-x-2"
@@ -666,8 +729,8 @@ export default function Home() {
                     )}
                     layoutId={`annot-card-${annot.label}`}
                   >
-                    <div className="flex flex-col items-center justify-center text-center shrink-0 border border-border/80 px-2 py-1 bg-surface font-mono">
-                      <span className="text-[9px] text-muted uppercase">Date</span>
+                    <div className="flex flex-col items-center justify-center text-center shrink-0 border border-border/80 px-2 py-1 bg-surface font-mono rounded-lg">
+                      <span className="text-[9px] text-muted uppercase font-bold">Date</span>
                       <span className="text-xs font-bold text-foreground">{annot.date}</span>
                     </div>
                     
@@ -721,11 +784,11 @@ export default function Home() {
           {/* Connection source telemetry column */}
           <div className="lg:col-span-4 flex flex-col gap-6">
             <div className={cn(
-              "p-6 border bg-white/40 dark:bg-[#0a1324]/40 backdrop-blur-md space-y-4",
+              "p-6 border bg-white/40 dark:bg-[#0a1324]/40 backdrop-blur-md space-y-4 rounded-2xl",
               sonarActive ? "border-[#00ff66]/30" : "border-border/60"
             )}>
               <div>
-                <span className="text-[9px] font-mono text-muted uppercase tracking-widest">Pipeline Select</span>
+                <span className="text-[9px] font-mono text-muted uppercase tracking-widest font-bold">Pipeline Select</span>
                 <h3 className="text-lg font-bold tracking-tight mt-1">1. Connected Telemetry</h3>
               </div>
 
@@ -744,7 +807,7 @@ export default function Home() {
                       playSynthesizedSound("chime");
                     }}
                     className={cn(
-                      "w-full flex items-center justify-between p-3.5 border transition-all duration-200 text-left",
+                      "w-full flex items-center justify-between p-3.5 border transition-all duration-200 text-left rounded-xl",
                       selectedSource === src.id 
                         ? sonarActive
                           ? "border-[#00ff66] bg-[#00ff66]/5"
@@ -753,7 +816,7 @@ export default function Home() {
                     )}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={cn("p-1.5 border border-border/50", selectedSource === src.id ? "text-primary bg-primary/5" : "text-muted")}>
+                      <div className={cn("p-1.5 border border-border/50 rounded-lg", selectedSource === src.id ? "text-primary bg-primary/5" : "text-muted")}>
                         {src.icon}
                       </div>
                       <div>
@@ -769,7 +832,7 @@ export default function Home() {
 
             {/* Terminal logs showing structural logs */}
             <div className={cn(
-              "p-5 border bg-black/95 font-mono text-[11px] flex flex-col justify-between h-[210px] shadow-2xl relative select-text",
+              "p-5 border bg-black/95 font-mono text-[11px] flex flex-col justify-between h-[210px] shadow-2xl relative select-text rounded-2xl",
               sonarActive ? "border-[#00ff66]/30 text-[#00ff66]" : "border-border text-emerald-400"
             )}>
               <div className="space-y-2.5">
@@ -796,7 +859,7 @@ export default function Home() {
           {/* Graphical Waveform Canvas Column */}
           <div className="lg:col-span-8">
             <div className={cn(
-              "border bg-white dark:bg-[#0a1324] p-6 sm:p-8 flex flex-col justify-between h-full relative",
+              "border bg-white dark:bg-[#0a1324] p-6 sm:p-8 flex flex-col justify-between h-full relative rounded-2xl",
               sonarActive ? "border-[#00ff66]/30 bg-emerald-950/10" : "border-border/60"
             )}>
               
@@ -807,7 +870,7 @@ export default function Home() {
               <div>
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6 border-b border-border/20 pb-4">
                   <div>
-                    <span className="text-[9px] font-mono text-muted uppercase tracking-widest">Active Canvas</span>
+                    <span className="text-[9px] font-mono text-muted uppercase tracking-widest font-bold">Active Canvas</span>
                     <h3 className="text-2xl font-bold mt-0.5">{activeData.title}</h3>
                   </div>
                   <div className="text-left sm:text-right shrink-0">
@@ -817,7 +880,7 @@ export default function Home() {
                 </div>
 
                 {/* SVG waveform canvas with interactive crosshair snap tracking */}
-                <div className="relative w-full aspect-[2/1] min-h-[220px] bg-black/[0.01] dark:bg-white/[0.01] border border-border/30 p-2 flex items-center justify-center">
+                <div className="relative w-full aspect-[1.3/1] sm:aspect-[2/1] min-h-[260px] sm:min-h-[220px] bg-black/[0.01] dark:bg-white/[0.01] border border-border/30 p-2 flex items-center justify-center rounded-xl overflow-hidden">
                   <svg 
                     viewBox={`0 0 ${width} ${height}`} 
                     className="w-full h-full overflow-visible"
@@ -977,43 +1040,43 @@ export default function Home() {
                       );
                     })}
                   </svg>
-
-                  {/* Absolute Chart Tooltip for Active Annotation */}
-                  <AnimatePresence mode="wait">
-                    {activeAnnotation !== null && activeAnnotations[activeAnnotation] && (
-                      <motion.div
-                        key={`${selectedSource}-${activeAnnotation}-${activeAnnotations.length}`}
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 5, scale: 0.98 }}
-                        transition={{ duration: 0.2 }}
-                        className={cn(
-                          "absolute bottom-4 left-4 right-4 p-4 border text-xs flex gap-3 shadow-md justify-between items-start",
-                          sonarActive ? "border-[#00ff66]/35 bg-[#040914] text-[#00ff66]" : "border-accent/20 bg-background/90"
-                        )}
-                      >
-                        <div className="flex gap-3">
-                          <div className="w-5 h-5 bg-accent/15 flex items-center justify-center text-accent shrink-0 font-mono text-[10px]">
-                            A
-                          </div>
-                          <div className="space-y-0.5">
-                            <span className="font-bold text-foreground text-xs uppercase tracking-wide">
-                              {activeAnnotations[activeAnnotation].label}
-                            </span>
-                            <p className="text-muted leading-relaxed select-text text-[11px]">
-                              {activeAnnotations[activeAnnotation].desc}
-                            </p>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
+
+                {/* Inline Responsive Tooltip for Active Annotation */}
+                <AnimatePresence mode="wait">
+                  {activeAnnotation !== null && activeAnnotations[activeAnnotation] && (
+                    <motion.div
+                      key={`${selectedSource}-${activeAnnotation}-${activeAnnotations.length}`}
+                      initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 5, scale: 0.98 }}
+                      transition={{ duration: 0.2 }}
+                      className={cn(
+                        "mt-4 p-4 border text-xs flex gap-3 shadow-md justify-between items-start rounded-xl",
+                        sonarActive ? "border-[#00ff66]/35 bg-[#040914] text-[#00ff66]" : "border-accent/20 bg-background/90"
+                      )}
+                    >
+                      <div className="flex gap-3">
+                        <div className="w-5 h-5 bg-accent/15 flex items-center justify-center text-accent shrink-0 font-mono text-[10px] rounded-lg">
+                          A
+                        </div>
+                        <div className="space-y-0.5">
+                          <span className="font-bold text-foreground text-xs uppercase tracking-wide">
+                            {activeAnnotations[activeAnnotation].label}
+                          </span>
+                          <p className="text-muted leading-relaxed select-text text-[11px]">
+                            {activeAnnotations[activeAnnotation].desc}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Bottom markings list */}
               <div className="border-t border-border/20 pt-4 mt-4">
-                <span className="text-[9px] font-mono text-muted uppercase tracking-widest block mb-2">Tidemark Ledger Registers</span>
+                <span className="text-[9px] font-mono text-muted uppercase tracking-widest block mb-2 font-bold">Tidemark Ledger Registers</span>
                 <div className="flex flex-wrap gap-1.5">
                   {activeAnnotations.map((annot, idx) => (
                     <button
@@ -1024,7 +1087,7 @@ export default function Home() {
                         playSynthesizedSound("click");
                       }}
                       className={cn(
-                        "px-3 py-1 text-[10px] font-mono border transition-all duration-200",
+                        "px-3 py-1 text-[10px] font-mono border transition-all duration-200 rounded-lg",
                         activeAnnotation === idx 
                           ? "bg-accent/15 border-accent text-foreground"
                           : "bg-surface border-border/60 text-muted hover:text-foreground"
@@ -1044,7 +1107,7 @@ export default function Home() {
 
       {/* COMPOSITION ENGINE */}
       <section id="compose" className="relative z-10 max-w-7xl mx-auto px-6 py-12">
-        <div className="p-8 border border-border/60 bg-white/40 dark:bg-[#0a1324]/40 backdrop-blur-md">
+        <div className="p-8 border border-border/60 bg-white/40 dark:bg-[#0a1324]/40 backdrop-blur-md rounded-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 space-y-4">
               <span className="text-[10px] font-mono text-primary uppercase tracking-widest block">Telemetry Editor</span>
@@ -1066,7 +1129,7 @@ export default function Home() {
                     value={customLabel}
                     onChange={(e) => setCustomLabel(e.target.value)}
                     placeholder="e.g. Launched checkout-v2"
-                    className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono"
+                    className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono rounded-xl"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -1074,7 +1137,7 @@ export default function Home() {
                   <select
                     value={customX}
                     onChange={(e) => setCustomX(Number(e.target.value))}
-                    className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono"
+                    className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground font-mono rounded-xl"
                   >
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((val) => (
                       <option key={val} value={val}>Month {val + 1} ({activeData.points[val]})</option>
@@ -1091,13 +1154,13 @@ export default function Home() {
                   value={customDesc}
                   onChange={(e) => setCustomDesc(e.target.value)}
                   placeholder="Explain why this inflection happened..."
-                  className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground resize-none font-sans leading-relaxed"
+                  className="w-full bg-background/50 border border-border px-4 py-2.5 text-xs focus:outline-none focus:border-primary transition-colors text-foreground resize-none font-sans leading-relaxed rounded-xl"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#091224] dark:bg-white text-white dark:text-[#091224] font-bold uppercase tracking-wider text-xs transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:opacity-90"
+                className="w-full py-3.5 bg-[#091224] dark:bg-white text-white dark:text-[#091224] font-bold uppercase tracking-wider text-xs transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:opacity-90 rounded-xl"
               >
                 <Plus size={14} /> Register Annotation mark
               </button>
@@ -1107,9 +1170,9 @@ export default function Home() {
       </section>
 
       {/* Dynamic Integrations Grid */}
-      <section id="integrations" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-border/40">
+      <section id="integrations" className="relative z-10 max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <span className="text-[10px] font-mono text-primary uppercase tracking-widest">Connect any stack</span>
+          <span className="text-[10px] font-mono text-primary uppercase tracking-widest font-bold">Connect any stack</span>
           <h2 className="text-4xl font-bold font-sans">Supported Integrations</h2>
           <p className="text-xs text-muted">Hook up data queries from any modern warehousing, analytics, or application layer in seconds.</p>
         </div>
@@ -1119,9 +1182,9 @@ export default function Home() {
             <div 
               key={idx}
               onClick={() => playSynthesizedSound("click")}
-              className="p-5 border border-border/80 bg-white/40 dark:bg-[#0a1324]/40 hover:bg-white dark:hover:bg-[#0a1324] hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-left group cursor-pointer"
+              className="p-5 border border-border/80 bg-white/40 dark:bg-[#0a1324]/40 hover:bg-white dark:hover:bg-[#0a1324] hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-left group cursor-pointer rounded-xl"
             >
-              <div className="w-9 h-9 border border-border/60 flex items-center justify-center text-primary mb-4 group-hover:scale-105 transition-transform duration-200">
+              <div className="w-9 h-9 border border-border/60 flex items-center justify-center text-primary mb-4 group-hover:scale-105 transition-transform duration-200 rounded-lg">
                 {int.icon}
               </div>
               <div>
@@ -1135,14 +1198,14 @@ export default function Home() {
       </section>
 
       {/* Dynamic Interactive Pricing Section */}
-      <section id="pricing" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-border/40">
+      <section id="pricing" className="relative z-10 max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
           <span className="text-[10px] font-mono text-primary uppercase tracking-widest font-sans font-bold">Transparent Scale</span>
           <h2 className="text-4xl font-bold">Metrics-Based Pricing</h2>
           <p className="text-xs text-muted">Use the slider below to calculate your plan based on the total monthly data events your team tracks.</p>
         </div>
 
-        <div className="p-8 border border-border/80 bg-white/30 dark:bg-[#0a1324]/30 backdrop-blur-md max-w-4xl mx-auto">
+        <div className="p-8 border border-border/80 bg-white/30 dark:bg-[#0a1324]/30 backdrop-blur-md max-w-4xl mx-auto rounded-2xl">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             
             {/* Slider Column */}
@@ -1188,7 +1251,7 @@ export default function Home() {
             </div>
 
             {/* Price Showcase Column */}
-            <div className="md:col-span-5 p-6 border border-primary/20 bg-primary/5 flex flex-col justify-between items-center text-center h-full">
+            <div className="md:col-span-5 p-6 border border-primary/20 bg-primary/5 flex flex-col justify-between items-center text-center h-full rounded-xl">
               <div className="space-y-1.5">
                 <span className="text-[10px] font-mono font-bold text-primary uppercase tracking-widest">{activePlan.plan}</span>
                 <div className="flex items-baseline justify-center gap-1">
@@ -1204,7 +1267,7 @@ export default function Home() {
                   setAuthTab("signup");
                   playSynthesizedSound("chime");
                 }}
-                className="w-full mt-6 py-3 bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914] font-bold uppercase tracking-wider text-xs shadow-md transition-all duration-200"
+                className="w-full mt-6 py-3 bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914] font-bold uppercase tracking-wider text-xs shadow-md transition-all duration-200 rounded-xl"
               >
                 Choose Plan
               </button>
@@ -1215,7 +1278,7 @@ export default function Home() {
       </section>
 
       {/* Collapsible FAQ Section */}
-      <section id="faq" className="relative z-10 max-w-4xl mx-auto px-6 py-20 border-t border-border/40">
+      <section id="faq" className="relative z-10 max-w-4xl mx-auto px-6 py-20">
         <div className="text-center mb-16 space-y-3">
           <span className="text-[10px] font-mono text-primary uppercase tracking-widest font-sans font-bold">Learn more</span>
           <h2 className="text-4xl font-bold">Frequently Asked Questions</h2>
@@ -1227,7 +1290,7 @@ export default function Home() {
             return (
               <div 
                 key={idx}
-                className="border border-border/60 bg-white/40 dark:bg-[#0a1324]/40 overflow-hidden transition-all duration-300"
+                className="border border-border/60 bg-white/40 dark:bg-[#0a1324]/40 overflow-hidden transition-all duration-300 rounded-xl"
               >
                 <button
                   onClick={() => {
@@ -1264,31 +1327,31 @@ export default function Home() {
       </section>
 
       {/* Concept statement */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-20 border-t border-border/40">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="font-serif text-4xl font-bold mb-4">The problem with dashboard metrics</h2>
           <p className="text-xs text-muted leading-relaxed">Most dashboards show you *what* happened but completely hide *why* it happened. You waste hours cross-checking old Slack messages, commit logs, or calendar entries just to reconstruct why conversion rate spiked in June.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-6 border border-border/60 bg-white/30 dark:bg-[#0a1324]/30">
-            <div className="w-10 h-10 border border-border/60 flex items-center justify-center text-primary mb-4">
+          <div className="p-6 border border-border/60 bg-white/30 dark:bg-[#0a1324]/30 rounded-xl">
+            <div className="w-10 h-10 border border-border/60 flex items-center justify-center text-primary mb-4 rounded-lg">
               <Sparkles size={20} />
             </div>
-            <h3 className="font-serif text-xl font-bold mb-2">Automated Inflection</h3>
+            <h3 className="font-serif text-xl font-bold mb-2">Automated Inflexion</h3>
             <p className="text-xs text-muted leading-relaxed">Our detection engine reads your Stripe database or API stream, automatically flagging anomalies and major rate changes.</p>
           </div>
 
-          <div className="p-6 border border-border/60 bg-white/30 dark:bg-[#0a1324]/30">
-            <div className="w-10 h-10 border border-border/60 flex items-center justify-center text-primary mb-4">
+          <div className="p-6 border border-border/60 bg-white/30 dark:bg-[#0a1324]/30 rounded-xl">
+            <div className="w-10 h-10 border border-border/60 flex items-center justify-center text-primary mb-4 rounded-lg">
               <Clock size={20} />
             </div>
             <h3 className="font-serif text-xl font-bold mb-2">Permanent Pins</h3>
             <p className="text-xs text-muted leading-relaxed">Pin descriptions directly onto dates. If you change pricing, launch a feature, or get featured on HN, lock the context in forever.</p>
           </div>
 
-          <div className="p-6 border border-border/60 bg-white/30 dark:bg-[#0a1324]/30">
-            <div className="w-10 h-10 border border-border/60 flex items-center justify-center text-primary mb-4">
+          <div className="p-6 border border-border/60 bg-white/30 dark:bg-[#0a1324]/30 rounded-xl">
+            <div className="w-10 h-10 border border-border/60 flex items-center justify-center text-primary mb-4 rounded-lg">
               <Terminal size={20} />
             </div>
             <h3 className="font-serif text-xl font-bold mb-2">Read-Only Safety</h3>
@@ -1298,7 +1361,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 bg-surface/20 relative z-10">
+      <footer className="bg-surface/20 relative z-10">
         <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <span className="font-serif italic text-xl font-bold text-muted">Tidemark</span>
           <div className="text-xs text-muted">
@@ -1333,7 +1396,7 @@ export default function Home() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 15 }}
               transition={{ type: "spring", duration: 0.4 }}
-              className="relative w-full max-w-md border border-border bg-white dark:bg-[#070e1b] p-8 shadow-[0_0_50px_rgba(13,148,136,0.15)] dark:shadow-[0_0_60px_rgba(45,212,191,0.08)] text-foreground z-10"
+              className="relative w-full max-w-md border border-border bg-white dark:bg-[#070e1b] p-8 shadow-[0_0_50px_rgba(13,148,136,0.15)] dark:shadow-[0_0_60px_rgba(45,212,191,0.08)] text-foreground z-10 rounded-2xl"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-border/30 pb-4 mb-6">
@@ -1343,7 +1406,7 @@ export default function Home() {
                     setAuthModalOpen(false);
                     playSynthesizedSound("click");
                   }}
-                  className="text-xs font-mono border border-border hover:bg-surface/30 px-2 py-0.5"
+                  className="text-xs font-mono border border-border hover:bg-surface/30 px-2 py-0.5 rounded-lg"
                 >
                   ESC // CLOSE
                 </button>
@@ -1360,7 +1423,7 @@ export default function Home() {
                     <Check size={24} />
                   </div>
                   <h3 className="font-serif text-2xl font-bold">Access Granted</h3>
-                  <p className="text-xs text-muted font-mono uppercase tracking-widest">[ SYSTEM INIT // WELCOME BACK COMMANDER ]</p>
+                  <p className="text-xs text-muted font-mono uppercase tracking-widest font-bold">[ SYSTEM INIT // WELCOME BACK COMMANDER ]</p>
                   <p className="text-xs text-muted leading-relaxed max-w-xs mx-auto">
                     Your database read pipeline has successfully handshake-verified. Setting up metrics ledger...
                   </p>
@@ -1370,7 +1433,7 @@ export default function Home() {
                       setAuthSuccess(false);
                       playSynthesizedSound("chime");
                     }}
-                    className="w-full py-3 bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914] font-bold uppercase tracking-wider text-xs shadow-md"
+                    className="w-full py-3 bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914] font-bold uppercase tracking-wider text-xs shadow-md rounded-xl"
                   >
                     Enter Workspace
                   </button>
@@ -1379,14 +1442,14 @@ export default function Home() {
                 /* Form State */
                 <div className="space-y-5">
                   {/* Tabs */}
-                  <div className="grid grid-cols-2 border border-border/60 bg-surface/30 p-1 mb-2">
+                  <div className="grid grid-cols-2 border border-border/60 bg-surface/30 p-1 mb-2 rounded-xl">
                     <button 
                       onClick={() => {
                         setAuthTab("signup");
                         playSynthesizedSound("click");
                       }}
                       className={cn(
-                        "py-1.5 text-xs font-mono uppercase tracking-wider font-bold transition-all duration-200",
+                        "py-1.5 text-xs font-mono uppercase tracking-wider font-bold transition-all duration-200 rounded-lg",
                         authTab === "signup" 
                           ? "bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914]" 
                           : "text-muted hover:text-foreground"
@@ -1400,7 +1463,7 @@ export default function Home() {
                         playSynthesizedSound("click");
                       }}
                       className={cn(
-                        "py-1.5 text-xs font-mono uppercase tracking-wider font-bold transition-all duration-200",
+                        "py-1.5 text-xs font-mono uppercase tracking-wider font-bold transition-all duration-200 rounded-lg",
                         authTab === "login" 
                           ? "bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914]" 
                           : "text-muted hover:text-foreground"
@@ -1427,7 +1490,7 @@ export default function Home() {
                           value={nameInput}
                           onChange={(e) => setNameInput(e.target.value)}
                           placeholder="e.g. John Doe"
-                          className="w-full px-3 py-2 text-xs bg-surface/20 border border-border/80 focus:outline-none focus:border-primary text-foreground font-mono"
+                          className="w-full px-3 py-2 text-xs bg-surface/20 border border-border/80 focus:outline-none focus:border-primary text-foreground font-mono rounded-xl"
                         />
                       </div>
                     )}
@@ -1440,7 +1503,7 @@ export default function Home() {
                         value={emailInput}
                         onChange={(e) => setEmailInput(e.target.value)}
                         placeholder="admin@company.io"
-                        className="w-full px-3 py-2 text-xs bg-surface/20 border border-border/80 focus:outline-none focus:border-primary text-foreground font-mono"
+                        className="w-full px-3 py-2 text-xs bg-surface/20 border border-border/80 focus:outline-none focus:border-primary text-foreground font-mono rounded-xl"
                       />
                     </div>
 
@@ -1452,14 +1515,14 @@ export default function Home() {
                         value={passwordInput}
                         onChange={(e) => setPasswordInput(e.target.value)}
                         placeholder="••••••••••••"
-                        className="w-full px-3 py-2 text-xs bg-surface/20 border border-border/80 focus:outline-none focus:border-primary text-foreground font-mono"
+                        className="w-full px-3 py-2 text-xs bg-surface/20 border border-border/80 focus:outline-none focus:border-primary text-foreground font-mono rounded-xl"
                       />
                     </div>
 
                     <div className="pt-2">
                       <button 
                         type="submit"
-                        className="w-full py-3 bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914] font-bold uppercase tracking-wider text-xs shadow-md transition-all duration-200 shimmer-btn"
+                        className="w-full py-3 bg-[#0d9488] dark:bg-[#2dd4bf] text-white dark:text-[#040914] font-bold uppercase tracking-wider text-xs shadow-md transition-all duration-200 shimmer-btn rounded-xl"
                       >
                         {authTab === "signup" ? "Initialize Pipelines (Free)" : "Decrypt Account"}
                       </button>
@@ -1481,7 +1544,7 @@ export default function Home() {
                         playSynthesizedSound("click");
                         setAuthSuccess(true);
                       }}
-                      className="py-2 border border-border/60 hover:bg-surface/30 flex items-center justify-center gap-2 text-[10px] font-mono uppercase font-bold"
+                      className="py-2 border border-border/60 hover:bg-surface/30 flex items-center justify-center gap-2 text-[10px] font-mono uppercase font-bold rounded-xl"
                     >
                       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                       GitHub
@@ -1491,7 +1554,7 @@ export default function Home() {
                         playSynthesizedSound("click");
                         setAuthSuccess(true);
                       }}
-                      className="py-2 border border-border/60 hover:bg-surface/30 flex items-center justify-center gap-2 text-[10px] font-mono uppercase font-bold"
+                      className="py-2 border border-border/60 hover:bg-surface/30 flex items-center justify-center gap-2 text-[10px] font-mono uppercase font-bold rounded-xl"
                     >
                       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-6.887 4.114-4.647 0-8.4-3.753-8.4-8.4s3.753-8.4 8.4-8.4c2.25 0 4.3.85 5.88 2.36l3.07-3.07c-2.43-2.28-5.59-3.69-8.95-3.69-7.5 0-13.5 6-13.5 13.5s6 13.5 13.5 13.5c7.05 0 13.32-4.95 13.32-13.5 0-.9-.1-1.5-.23-2.04h-13.09z"/></svg>
                       Google
@@ -1516,6 +1579,18 @@ export default function Home() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Floating Theme Toggle on Mobile */}
+      <button
+        onClick={() => {
+          setTheme(theme === "dark" ? "light" : "dark");
+          playSynthesizedSound("click");
+        }}
+        className="fixed bottom-4 right-4 sm:hidden z-40 p-3 rounded-full border border-border/60 bg-white/80 dark:bg-[#070e1b]/80 backdrop-blur-md shadow-lg text-muted/80 hover:text-foreground transition-all duration-200"
+        aria-label="Toggle Theme Mobile"
+      >
+        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+      </button>
     </div>
   );
 }

@@ -46,22 +46,28 @@ Directly above the CTA sits a live network metrics stats bar:
 
 ### C. Native Desktop Badge Section
 Emphasizes that Tidemark isn't just a basic web-dashboard, but a full native command center:
-* Displays platform compatibility badges: **Windows x64** (with styled SVG blue Windows logo), **macOS Client** (with Apple logo), and **CLI Tool** (terminal deployment option).
+* Displays platform compatibility badges: **Windows x64** (with styled SVG blue Windows logo), **macOS Client** (with Apple logo), and **CLI Tool** (terminal deployment option). All badges are styled with curved corners (`rounded-md`).
 
 ### D. Interactive Auth Gateway Modal
 Clicking any major action button opens a custom transition overlay modal:
 * **Tab-Switching**: Users can switch seamlessly between Signup and Log In forms with mechanical audio clicks.
 * **Mock Credential inputs**: Custom input fields (Commander Name, DB Admin Email, and password key) match the blueprint styling.
 * **Instant Demo Bypass**: Includes a fast `⚡ Quick Bypass: Open as Demo Account` link which bypasses form validation and transitions into a satisfying "Access Granted" confirmation screen.
+* **Curved Aesthetics**: Container boxes, inputs, tabs, and CTA buttons are standardized using `rounded-2xl`, `rounded-xl`, and `rounded-lg` utility rules.
 
-### E. Retro Deep Sea Sonar Calibration Mode
-Entering the Konami Code (`Up, Up, Down, Down, Left, Right, Left, Right, B, A`) shifts the entire landing page into a glowing emerald submarine console:
-* Adds retro scanline effects over the viewport.
-* Grid coordinates sweep across the custom SVGs.
-* Synthesizes audio pings recursively.
+### E. Retro Phosphor Green CRT Terminal Calibration Mode (Easter Egg)
+Entering the Konami Code (`Up, Up, Down, Down, Left, Right, Left, Right, B, A`) on the page shifts the entire landing page into a glowing emerald retro submarine console:
+* **Phosphor Tint Filter**: Translates page colors into an authentic monochromatic phosphor green display using custom CSS filters: `sepia(0.85) hue-rotate(85deg) saturate(2.2) brightness(0.95) contrast(1.15)`.
+* **Flicker Overlay**: Plays a subtle screen flicker keyframe animation over the layout.
+* **Rolling Scanline Bar**: A translucent green scanline rolls vertically across the viewport mimicking old CRT television tube monitors.
+* **Vignette shadow**: Standard dark overlay vignette frames the edges of the page, pulling focus to the center.
+* **Acoustic feedback**: Triggers synthesized acoustic sonar sweeps recursively.
 
 ---
 
-## 3. Engineering Decisions & Build Fixes
+## 3. Engineering Decisions & Design Refinements
+
+* **Flow Optimization**: Removed all heavy horizontal section borders and dividing lines that broke the vertical scrolling page flow. Now, the layout uses smooth background gradients and grid groupings to naturally transition between marketing columns.
+* **Mobile-Responsive Chart Adaptability**: SVG charting containers use fluid aspect ratios (`aspect-[1.3/1]`) and responsive heights on small screens to ensure that data nodes and chronological labels remain fully visible, legible, and clickable on mobile screens.
 * **Eliminated `next/font` Pre-Render Crashes**: Removed Node-bound `next/font/google` loaders which crashed the compilation environment in offline or proxy-restricted setups. Fonts are now imported via standard CSS `@import` rules and matched to a solid system-fallback chain in `tailwind.config.ts`.
 * **Zero Asset Dependency Web Audio API**: Used vanilla browser `AudioContext` osc/gain node synthesizer scripts to dynamically sound-design click, chime, and sonar noises client-side, avoiding slow audio file fetches and keeping the bundle footprint lightweight.
