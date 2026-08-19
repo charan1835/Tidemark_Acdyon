@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina - The keyboard-first snippet manager</title>
+    <meta name="description" content="Lumina is a minimal, blazing fast macOS app for saving and retrieving code snippets. Entirely offline.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="ambient-background">
+        <div class="glow-blob"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Lumina</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero container">
+            <div class="badge">
+                <span class="badge-dot"></span> Lumina 2.0 is now available
+            </div>
+            <h1 class="hero-title">
+                The snippet manager<br>
+                <span class="text-gradient">your brain deserves.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Millisecond search for your code snippets, entirely offline. Built for macOS with native performance and a keyboard-first design.
+            </p>
+            <div class="hero-cta">
+                <a href="#" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download for macOS
+                </a>
+                <a href="#demo" class="btn btn-secondary">
+                    View Interactive Demo
+                </a>
+            </div>
+            <p class="hero-meta">Requires macOS 12.0 or later. Free trial available.</p>
+        </section>
+
+        <section class="product-showcase container" id="demo">
+            <div class="mock-window reveal-on-scroll">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control close"></span>
+                        <span class="control minimize"></span>
+                        <span class="control maximize"></span>
+                    </div>
+                    <div class="window-title">⌘K to search...</div>
+                </div>
+                <div class="window-body">
+                    <div class="sidebar">
+                        <div class="sidebar-item active">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                            All Snippets
+                        </div>
+                        <div class="sidebar-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                            React Components
+                        </div>
+                        <div class="sidebar-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+                            Docker Configs
+                        </div>
+                    </div>
+                    <div class="editor-pane">
+                        <div class="snippet-header">
+                            <h2>useDebounce.ts</h2>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre class="code-block"><code><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">export function</span> <span class="function">useDebounce</span>&lt;<span class="type">T</span>&gt;(value: <span class="type">T</span>, delay: <span class="type">number</span>): <span class="type">T</span> {
+  <span class="keyword">const</span> [debouncedValue, setDebouncedValue] = <span class="function">useState</span>&lt;<span class="type">T</span>&gt;(value);
+
+  <span class="function">useEffect</span>(() =&gt; {
+    <span class="keyword">const</span> timer = <span class="function">setTimeout</span>(() =&gt; setDebouncedValue(value), delay);
+    <span class="keyword">return</span> () =&gt; <span class="function">clearTimeout</span>(timer);
+  }, [value, delay]);
+
+  <span class="keyword">return</span> debouncedValue;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features container" id="features">
+            <div class="feature-grid">
+                <div class="feature-card reveal-on-scroll delay-1">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Blazing Fast</h3>
+                    <p>Built with Rust and native macOS APIs. Searches through thousands of snippets instantly.</p>
+                </div>
+                <div class="feature-card reveal-on-scroll delay-2">
+                    <div class="feature-icon">⌨️</div>
+                    <h3>Keyboard First</h3>
+                    <p>Never touch your mouse. Navigate, copy, and paste entirely using keyboard shortcuts.</p>
+                </div>
+                <div class="feature-card reveal-on-scroll delay-3">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy Focused</h3>
+                    <p>Your code never leaves your machine. Lumina works entirely offline without tracking.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Lumina</span>
+                </div>
+                <p class="copyright">© 2026 Lumina Software. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
